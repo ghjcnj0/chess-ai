@@ -1,6 +1,7 @@
 {
-  "repos": [
-    "nlohmann/json/master",
-    "Merzlikin-Matvey/chess/main"
+  "repositories": [
+    "github/nlohmann/json/master",
+    "github/Merzlikin-Matvey/chess/main",
+    "gitlab/conradsnicta/armadillo-code/12.8.x"
   ]
 }

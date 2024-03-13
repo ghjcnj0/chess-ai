@@ -25,12 +25,6 @@ then
     fi
 fi
 
-# Чтение списка репозиториев из файла dependencies.json
-repos=($(jq -r '.repos[]' dependencies.json))
-
-# Массив для хранения установленных репозиториев
-installed_repos=()
-
 if [ -d "dependencies" ]; then
     echo "Удаление существующей директории dependencies"
     rm -rf dependencies
@@ -43,18 +37,31 @@ if [ -d "dependencies" ]; then
     fi
 fi
 
-for repo in "${repos[@]}"; do
+# Чтение списка библиотек файла dependencies.json
+repositories=($(jq -r '.repositories[]' dependencies.json))
+
+installed_repos=()
+
+for repo in "${repositories[@]}"; do
     IFS='/' read -r -a array <<< "$repo"
-    author_name="${array[0]}"
-    repo_name="${array[1]}"
-    branch_name="${array[2]}"
+    server_name="${array[0]}"
+    author_name="${array[1]}"
+    repo_name="${array[2]}"
+    branch_name="${array[3]}"
 
     dir_path="dependencies/$author_name/$repo_name"
 
     mkdir -p $dir_path
-    curl -L https://github.com/$author_name/$repo_name/archive/refs/heads/$branch_name.zip --output $dir_path/$branch_name.zip
-    unzip -q $dir_path/$branch_name.zip -d $dir_path
-    rm $dir_path/$branch_name.zip
+    if [[ "$server_name" == "github" ]]; then
+        curl -L https://github.com/$author_name/$repo_name/archive/refs/heads/$branch_name.zip --output $dir_path/$repo_name.zip
+    else
+        echo "Загрузка $repo_name с gitlab"
+        echo https://gitlab.com/$author_name/$repo_name/-/archive/$branch_name/$repo_name-$branch_name.zip
+        curl -L https://gitlab.com/$author_name/$repo_name/-/archive/$branch_name/$repo_name-$branch_name.zip --output $dir_path/$repo_name.zip
+    fi
+
+    unzip -q $dir_path/$repo_name.zip -d $dir_path
+    rm $dir_path/$repo_name.zip
 
     if [ $? -eq 0 ]; then
         echo "Установка $repo_name прошла успешно"
@@ -69,6 +76,7 @@ echo "Установленные репозитории:"
 for repo in "${installed_repos[@]}"; do
     echo $repo
 done
+
 
 # Запуск скрипта installer_requirements.sh в каждой из установленных директорий, если он существует
 for repo in "${installed_repos[@]}"; do
