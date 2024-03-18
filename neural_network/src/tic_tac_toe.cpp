@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <armadillo>
+
 
 using namespace std;
 
@@ -55,6 +58,5 @@ public:
             return 0;
         }
     }
-
-
 };
+
