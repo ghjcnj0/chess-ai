@@ -3,60 +3,64 @@
 #include <algorithm>
 #include <armadillo>
 
+#include "main.h"
+
 
 using namespace std;
 
-class game{
-public:
-    int num1 = 0;
-    int num2 = 0;
-    vector<vector<bool>> board;
-    vector<vector<int>> points {{2, 9, 7}, {3, 1, 8}, {4, 5, 5}};
-
-    game() : board(3, vector<bool>(3, false)) {}
-
-    void print_board(){
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 3; j++){
-                cout << board[i][j] << " ";
-            }
-            cout << endl;
+void game::print_board(){
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < 3; j++){
+            cout << board[i][j] << " ";
         }
-        cout << "First: " << num1 << " Second: " << num2 << endl;
+        cout << endl;
     }
+}
 
-    void set(int x, int y, int player_num){
-        if (board[x][y]){
-            throw invalid_argument("This cell is already occupied");
-        }
-        board[x][y] = true;
-        if (player_num == 1){
-            num1 += points[x][y];
-        } else {
-            num2 += points[x][y];
-        }
+void game::set(int x, int y, int player_num){
+    if (board[x][y]){
+        throw invalid_argument("This move is already taken");
     }
+    board[x][y] = player_num;
+}
 
-    vector<pair<int, int>> available_moves(){
-        vector<pair<int, int>> result;
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 3; j++){
-                if (!board[i][j]){
-                    result.push_back({i, j});
-                }
+vector<pair<int, int>> game::available_moves(){
+    vector<pair<int, int>> result;
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < 3; j++){
+            if (board[i][j] == 0){
+                result.push_back({i, j});
             }
         }
-        return result;
     }
+    return result;
+}
 
-    int winner(){
-        if (num1 > num2){
-            return 1;
-        } else if (num2 > num1){
-            return 2;
-        } else {
-            return 0;
+int game::winner(){
+    for (int i = 0; i < 3; i++){
+        if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0] != 0){
+            return board[i][0];
         }
     }
-};
+
+    for (int i = 0; i < 3; i++){
+        if (board[0][i] == board[1][i] && board[1][i] == board[2][i] && board[0][i] != 0){
+            return board[0][i];
+        }
+    }
+
+    if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != 0){
+        return board[0][0];
+    }
+
+    if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != 0){
+        return board[0][2];
+    }
+
+    if (this->available_moves().size() == 0){
+        return 3;
+    }
+
+    return -1;
+}
 

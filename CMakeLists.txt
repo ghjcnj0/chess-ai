@@ -7,3 +7,5 @@ add_subdirectory(dependencies/conradsnicta/armadillo-code/armadillo-code-unstabl
 add_executable(Chess_AI main.cpp)
 
 target_link_libraries(Chess_AI Neural_Network armadillo)
+
+include_directories(dependencies/xianyi/OpenBLAS/OpenBLAS-develop)
