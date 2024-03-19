@@ -10,16 +10,24 @@ using namespace arma;
 
 class neural_network{
 public:
-    cube weights1 = randu<cube>(2, 2, 2);
-    mat weights2 = randu<mat>(1, 4);
-    mat weights3 = randu<mat>(1, 8);
+    cube weights1 = randu(2, 2, 2);
+    vec weights2 = randu(4);
+    cube weights3 = randu(2, 2, 2);
 
     double forward(cube input);
+    mat convolution(mat input, mat weights);
+    cube convolution(cube input, cube weights);
+    cube zero_borders(cube input, int padding);
+    mat pool(mat input, int stride);
+    cube pool(cube input, int stride);
+    mat tensor_to_matrix(cube input);
     vec flatten(mat input);
+    vec fully_connected(vec input, vec weights);
     double output(vec input);
-    double relu(double x);
-    mat convolve_matrix(mat input, mat kernel);
-    mat convolve_tensors(cube input, cube kernel);
+
+
+
+
 };
 
 class game{
