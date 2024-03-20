@@ -2,6 +2,7 @@
   "repositories": [
     "github/nlohmann/json/master",
     "github/Merzlikin-Matvey/chess/main",
-    "gitlab/conradsnicta/armadillo-code/unstable"
+    "gitlab/conradsnicta/armadillo-code/unstable",
+    "github/OpenMathLib/OpenBLAS/develop"
   ]
 }

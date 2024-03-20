@@ -18,10 +18,7 @@ void game::print_board(){
 }
 
 void game::set(int x, int y, int player_num){
-    if (board[x][y]){
-        throw invalid_argument("This move is already taken");
-    }
-    board[x][y] = player_num;
+    cout << 1 << endl;
 }
 
 vector<pair<int, int>> game::available_moves(){
@@ -62,5 +59,26 @@ int game::winner(){
     }
 
     return -1;
+}
+
+cube game::convert_board(const vector<std::vector<int>>& v, int your_team) {
+    cube result(3, 3, 2);
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < 3; j++){
+            if (v[i][j] == 0){
+                result(i, j, 0) = 0;
+                result(i, j, 1) = 0;
+            }
+            else if (v[i][j] == your_team){
+                result(i, j, 0) = 1;
+                result(i, j, 1) = 0;
+            }
+            else{
+                result(i, j, 0) = 0;
+                result(i, j, 1) = 1;
+            }
+        }
+    }
+    return result;
 }
 

@@ -4,13 +4,13 @@
 #include <vector>
 #include <algorithm>
 
-#include "neural_network/src/neural_network.cpp"
+#include "neural_network/src/main.h"
 
 
 using namespace std;
 
 int main() {
+    game g;
     neural_network nn;
-    cube tensor = randu(3, 3, 2);
-    cout << nn.forward(tensor) << endl;
+    g.print_board();
 }
