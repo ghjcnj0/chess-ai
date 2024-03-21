@@ -3,7 +3,78 @@
     "github/nlohmann/json/master",
     "github/Merzlikin-Matvey/chess/main",
     "gitlab/conradsnicta/armadillo-code/unstable",
-    "github/OpenMathLib/OpenBLAS",
-    "github/Reference-LAPACK/lapack"
+    "github/OpenMathLib/OpenBLAS/develop",
+    "github/Reference-LAPACK/lapack/master"
+  ],
+
+  "configurations": [
+    {
+      "name": "Windows",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "C:/Users/ARTEM/Desktop/VScode/qwer/lapack/lapack/include",
+        "C:/Users/ARTEM/Desktop/VScode/qwer/OpenBLAS/OpenBLAS/include"
+      ]
+    },
+
+    {
+      "name": "Linux",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "/usr/include"
+      ],
+      "defines": [],
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu17",
+      "cppStandard": "gnu++14",
+      "intelliSenseMode": "linux-gcc-x64",
+      "browse": {
+        "path": [
+          "${workspaceFolder}"
+        ],
+        "limitSymbolsToIncludedHeaders": true,
+        "databaseFilename": ""
+      },
+      "linux": {
+        "compilerPath": "/usr/bin/gcc",
+        "cStandard": "gnu17",
+        "cppStandard": "gnu++14",
+        "intelliSenseMode": "linux-gcc-x64"
+      },
+      "windows": {
+        "compilerPath": "C:/MinGW/bin/gcc.exe",
+        "intelliSenseMode": "msvc-x64"
+      },
+      "mac": {
+        "compilerPath": "/usr/bin/clang",
+        "cStandard": "gnu17",
+        "cppStandard": "gnu++14",
+        "intelliSenseMode": "clang-x64"
+      }
+    }
+  ],
+
+  "version": 4,
+
+  "tasks": [
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-g",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}",
+        "-LC:/Users/ARTEM/Desktop/VScode/qwer/lapack/lapack/lib",
+        "-LC:/Users/ARTEM/Desktop/VScode/qwer/OpenBLAS/OpenBLAS/lib",
+        "-llapack", 
+        "-lopenblas"    
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
   ]
 }
